@@ -20,7 +20,7 @@ Then: ```ls```
 
 After listing the files in the directory ```cat <filename>```
 
-### Bandit2
+## Bandit2
 
 The file name in the home folder is - , a special character
 
@@ -43,3 +43,18 @@ Also,  the rev command doesn't treat - as a special character.
 "The rev utility copies the specified files to standard output, reversing the order of characters in every line."
 
 so this also works ```rev - | rev```
+
+## Bandit3
+
+To view filenames with spaces, write the first few characters then press tab to fill the rest of the characters; this automatically escapes the spaces.
+
+One can also escape them manually:
+
+```cat "sample\ file"```
+
+Another option is to wrap the name with quotes. 
+
+For example:
+
+``` cat "sample file"```
+
