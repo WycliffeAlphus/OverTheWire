@@ -58,3 +58,24 @@ For example:
 
 ``` cat "sample file"```
 
+## Bandit4
+
+To find the hidden file use:
+
+```bash
+ls -a
+```
+## Bandit5
+
+To find the file and password. One can use:
+
+```bash
+find . -type f | xargs cat
+```
+That finds all the files in the current directory and pipes them to cat to print the contents.
+
+This can also work:
+
+```bash
+find . -type f -exec cat {} +
+```
