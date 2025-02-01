@@ -70,12 +70,13 @@ ls -a
 To find the file and password. One can use:
 
 ```bash
-find . -type f | xargs cat
+file -- *
 ```
-That finds all the files in the current directory and pipes them to cat to print the contents.
 
-This can also work:
+The ```--``` ensures that any file that starts with ```-``` is not treated as an option.
+
+The command finds the file type, then use redirection to see the content of the only listed human readable file:
 
 ```bash
-find . -type f -exec cat {} +
+cat < -filename
 ```
