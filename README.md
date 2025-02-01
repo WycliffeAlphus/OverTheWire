@@ -80,3 +80,23 @@ The command finds the file type, then use redirection to see the content of the 
 ```bash
 cat < -filename
 ```
+## Bandit6
+
+To find the only file with the specidfied size use:
+
+```bash
+find . -size 1033c
+```
+or 
+
+```bash
+
+find . -size 1033c ! -executable
+```
+or
+
+```bash
+find . -size 1033c ! -executable -exec file {} +
+```
+
+The redirect the contents of the files to ```cat```
