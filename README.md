@@ -100,3 +100,19 @@ find . -size 1033c ! -executable -exec file {} +
 ```
 
 The redirect the contents of the files to ```cat```
+
+
+## Bandit7
+
+To find the file with the password, the ```find``` command becomes useful. 
+
+We start the search from the root. However, it is important to note that some directories might  be restricted therefore to avoid the errors from being printed we direct any errors form the stderr(2) to ```/dev/null``` 
+
+The ```/dev/null``` is like a blackhole in linux and unix-based systems. So anything passed to it disappears. 
+
+
+so the command will be:
+
+```bash
+find / -type f -user bandit7 -group bandit6 -size 33c 2>/dev/null
+```
