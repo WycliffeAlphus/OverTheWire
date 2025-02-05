@@ -116,3 +116,19 @@ so the command will be:
 ```bash
 find / -type f -user bandit7 -group bandit6 -size 33c 2>/dev/null
 ```
+
+## Bandit8
+
+To find the password for level 8, ```grep``` is important. It helps in finding matches. 
+
+One can use this:
+
+```bash
+cat data.txt | grep millionth```
+```
+
+or 
+
+```bash
+grep millionth data.txt
+```
