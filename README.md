@@ -132,3 +132,18 @@ or
 ```bash
 grep millionth data.txt
 ```
+
+## Bandit9
+
+The ```uniq``` can help one find only set of characters that appear only once using the unique option `-u`. That is:
+
+```uniq -u```
+
+Option `-d` lists the duplicates and `-c` the
+count.
+
+However to do so the data should be sorted then piped to uniq:
+
+```bash
+sort data.txt | uniq -u
+```
