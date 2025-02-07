@@ -147,3 +147,13 @@ However to do so the data should be sorted then piped to uniq:
 ```bash
 sort data.txt | uniq -u
 ```
+
+## Bandit 10
+
+To find the password use `strings` since it returns human readable characters. Piping it to `grep` can then help find the password preceded by the `=` sign.
+
+Therefore the command is:
+
+```bash
+strings data.txt | grep '=='
+```
