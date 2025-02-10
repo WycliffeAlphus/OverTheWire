@@ -157,3 +157,19 @@ Therefore the command is:
 ```bash
 strings data.txt | grep '=='
 ```
+
+## Bandit 11
+
+Base64 helps to represent binary data in ASCII.
+
+In order to encode use:
+
+```bash
+base64 <<< 'Hello, World1'
+```
+
+Also to decode use
+
+```bash
+base64 -d <<< VGhlIHBhc3N3b3JkIGlzIGR0UjE3M2ZaS2IwUlJzREZTR3NnMlJXbnBOVmozcVJyCg==
+```
