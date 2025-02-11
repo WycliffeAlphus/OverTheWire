@@ -173,3 +173,26 @@ Also to decode use
 ```bash
 base64 -d <<< VGhlIHBhc3N3b3JkIGlzIGR0UjE3M2ZaS2IwUlJzREZTR3NnMlJXbnBOVmozcVJyCg==
 ```
+## Bandit 12
+
+To get back a rot13 encoded string, use the `tr` command. It lets one subtitute characters with another. So the solution will be:
+
+```bash
+tr 'A-Za-z' 'N-ZA-Mn-za-m' < data.txt
+```
+
+tr `A-Za-z` `N-ZA-Mn-za-m`
+
+`A-Za-z`: This defines the set of all uppercase (A-Z) and lowercase (a-z) letters.
+
+`N-ZA-Mn-za-m`: This defines the transformed set where:
+        
+```A-M shifts to N-Z```
+
+```N-Z shifts back to A-M```
+
+```a-m shifts to n-z```
+
+```n-z shifts back to a-m```
+
+This mapping effectively shifts each letter 13 places forward in the alphabet wrapping around at the end.
