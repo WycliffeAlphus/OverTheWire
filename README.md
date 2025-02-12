@@ -196,3 +196,103 @@ tr `A-Za-z` `N-ZA-Mn-za-m`
 ```n-z shifts back to a-m```
 
 This mapping effectively shifts each letter 13 places forward in the alphabet wrapping around at the end.
+ 
+ ## Bandit 12 > 13
+
+ To solve this level, creat a directory `temp` and a random one inside `temp` using:
+
+ ```bash
+ mktemp -d
+ ```
+
+Then when inside the directory use:
+
+```bash
+cp ~/data.txt
+```
+
+It helps copy the file from home (~) to the current directory.
+
+Revert the hexdamp using:
+
+```bash
+xxd -r <hexdump> <new file name>
+```
+
+After that it is a series of renaming and decompressing.
+
+When `cat hexdump` is used it the header shows that it is of gzip type, `00000000: 1f8b 0808`. 
+
+To decopmress it is renamed to `.gz`
+
+```bash
+mv filename filename.gz
+```
+
+Then use:
+```bash
+gzip -d filename.gz
+```
+
+The file then becomes `BZIP2`
+
+```bash
+00000000: 425a 6839
+```
+Therefore it is renamed to `.bz2` 
+ 
+ ```bash
+ bzip2 -d filename.bz2
+ ```
+
+ xxd shows that it goes back to `gzip` compression
+
+ Therefore renaming to `.gz` then 
+
+ ```bash
+ gzip -d filename.gz
+ ```
+
+ When `cat` is used on the decompressed file, it shows an archive: `data5.bin`
+
+ The .bin is a tar file, decompressing it needs changing the name to `.tar`. Then use:
+
+ ```bash
+ tar -xf filename.tar
+ ```
+
+ ls then shows `data5.bin` as one of the files and it has an archive `data6.bin`
+
+ extract the file using:
+
+ ```bash
+ tar -xf data5.bin
+ ```
+
+ `data6.bin` is bzip2 compressed if one uses ```xxd data6.bin```. 
+
+ One can use :
+
+ ```bash
+ bzip2 -d data6.bin
+ ```
+
+ It leads to `data6.bin.out` which has an archive `data8.bin`
+
+ ```bash
+ tar -xf data6.bin.out
+ ```
+ We now have `data8.bin` which is a `gzip` . It is confirmed using `xxxd data8.bin`
+
+ After renaming to `.gz` and extracting the contents one gets a readable file:
+
+ ```bash
+ gzip -d data8.gz
+ ```
+
+ Then:
+
+ ```bash
+ cat data8
+ ```
+
