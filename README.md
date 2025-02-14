@@ -296,3 +296,31 @@ Therefore it is renamed to `.bz2`
  cat data8
  ```
 
+## Bandit 13 > 14
+
+To go to the next level we need to used a sshkey. Doing so requires the sshkey to be in the local machine. 
+
+Since the key is available in bandit13  we can `scp` command to retreive it.
+
+It uses ssh to transfer data over the network and syntax is:
+
+```bash
+scp -p <port> <user>@<IP>:<remotefilepath><localfilepath>
+```
+
+I used this:
+
+```bash
+scp -P 2220 bandit13@bandit.labs.overthewire.org:sshkey.private .
+ ```
+ The file was saved in my present (.) directory.
+
+ I then used it to log into level 14:
+
+ ```bash
+ssh -i sshkey.private -p 2220 bandit14@bandit.labs.overthewire.org
+
+ ```      
+
+
+ `-i` is used to specify an identity file (private key) for authentication when connecting to a remote server.           
