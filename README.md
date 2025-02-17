@@ -323,4 +323,22 @@ ssh -i sshkey.private -p 2220 bandit14@bandit.labs.overthewire.org
  ```      
 
 
- `-i` is used to specify an identity file (private key) for authentication when connecting to a remote server.           
+ `-i` is used to specify an identity file (private key) for authentication when connecting to a remote server.  
+
+ ## Bandit 14 > 15
+
+ This level requires one to submit the password of the current level to port 30000 on localhost. 
+
+ first we retrieve the password using `cat`; the folder to find it was in the previous level.
+
+```bash
+cat /etc/bandit_pass/bandit14
+```
+Then make a connection and submit it:
+
+```bash
+nc localhost 30000
+```
+
+ 
+
