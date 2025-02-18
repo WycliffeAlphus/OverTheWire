@@ -342,9 +342,12 @@ nc localhost 30000
 
  ## Bandit 15 > 16
 
- To get the password for the next level, the `openssl` command is important:
+ To get the password for the next level, the `openssl` command is important; It is used while logged into bandit15.
 
  ```bash
- openssl s_client -connet localhost:30001
+ openssl s_client -connect localhost:30001
  ```
+
+ `openssl s_client` connects to a server using SSL/TLS.
+
 Submitting level15's password to the established connection leads to the retrieval of the needed password.
