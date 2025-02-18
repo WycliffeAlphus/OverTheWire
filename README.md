@@ -340,5 +340,11 @@ Then make a connection and submit it:
 nc localhost 30000
 ```
 
- 
+ ## Bandit 15 > 16
 
+ To get the password for the next level, the `openssl` command is important:
+
+ ```bash
+ openssl s_client -connet localhost:30001
+ ```
+Submitting level15's password to the established connection leads to the retrieval of the needed password.
