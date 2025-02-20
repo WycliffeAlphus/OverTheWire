@@ -351,3 +351,40 @@ nc localhost 30000
  `openssl s_client` connects to a server using SSL/TLS.
 
 Submitting level15's password to the established connection leads to the retrieval of the needed password.
+
+
+## Bandit 16 > 17
+
+This level involves Port Scanning: finding open ports.
+
+This can be done using `nmap` :
+
+```bash
+nmap -sV -p 31000-32000 localhost
+```
+
+`-sV` helps in detecting the service and version information from the open posts.
+`-p` enables one to provide a port.
+
+`localhost` is the host name which resolves to an ip address.
+
+After identifying the port which speaks SSL and does not `echo` back info, we send the current password to it using `openssl`
+
+```bash
+echo '<password>' | openssl s_client -connect localhost:<port> -quiet
+``` 
+
+The `-quiet` option ensures that only response from the server is printed out: information such as certificate details, handshake process and cipher negotiation is ignored.
+
+
+It returns a private key that can be used to ssh into the next level after storing it in a file: `private.key`
+
+```bash
+ssh -p 2220 -i private.key bandit17@bandit.labs.overthewire.org
+```
+
+After gaining access to level 17, capture the password and store it:
+
+```bash
+cat /etc/bandit_pass/bandit17
+```
