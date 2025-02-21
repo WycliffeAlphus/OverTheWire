@@ -1,4 +1,4 @@
-## 1️⃣️Bandit0
+## Bandit 0
 
 To connect remotely:
 
@@ -10,7 +10,7 @@ for example
 
 One is then prompted for the password.
 
-## Bandit1
+## Bandit 0 > 1
 
 The password is in a folder in root 
 
@@ -20,7 +20,7 @@ Then: ```ls```
 
 After listing the files in the directory ```cat <filename>```
 
-## Bandit2
+## Bandit 1 > 2
 
 The file name in the home folder is - , a special character
 
@@ -44,7 +44,7 @@ Also,  the rev command doesn't treat - as a special character.
 
 so this also works ```rev - | rev```
 
-## Bandit3
+## Bandit 2 > 3
 
 To view filenames with spaces, write the first few characters then press tab to fill the rest of the characters; this automatically escapes the spaces.
 
@@ -58,14 +58,14 @@ For example:
 
 ``` cat "sample file"```
 
-## Bandit4
+## Bandit 3 > 4
 
 To find the hidden file use:
 
 ```bash
 ls -a
 ```
-## Bandit5
+## Bandit 4 > 5
 
 To find the file and password. One can use:
 
@@ -80,7 +80,7 @@ The command finds the file type, then use redirection to see the content of the 
 ```bash
 cat < -filename
 ```
-## Bandit6
+## Bandit 5 > 6
 
 To find the only file with the specidfied size use:
 
@@ -102,7 +102,7 @@ find . -size 1033c ! -executable -exec file {} +
 The redirect the contents of the files to ```cat```
 
 
-## Bandit7
+## Bandit 6 > 7
 
 To find the file with the password, the ```find``` command becomes useful. 
 
@@ -117,7 +117,7 @@ so the command will be:
 find / -type f -user bandit7 -group bandit6 -size 33c 2>/dev/null
 ```
 
-## Bandit8
+## Bandit 7 > 8
 
 To find the password for level 8, ```grep``` is important. It helps in finding matches. 
 
@@ -133,7 +133,7 @@ or
 grep millionth data.txt
 ```
 
-## Bandit9
+## Bandit 8 > 9
 
 The ```uniq``` can help one find only set of characters that appear only once using the unique option `-u`. That is:
 
@@ -148,7 +148,7 @@ However to do so the data should be sorted then piped to uniq:
 sort data.txt | uniq -u
 ```
 
-## Bandit 10
+## Bandit 9 > 10
 
 To find the password use `strings` since it returns human readable characters. Piping it to `grep` can then help find the password preceded by the `=` sign.
 
@@ -158,7 +158,7 @@ Therefore the command is:
 strings data.txt | grep '=='
 ```
 
-## Bandit 11
+## Bandit 10 > 11
 
 Base64 helps to represent binary data in ASCII.
 
@@ -173,7 +173,7 @@ Also to decode use
 ```bash
 base64 -d <<< VGhlIHBhc3N3b3JkIGlzIGR0UjE3M2ZaS2IwUlJzREZTR3NnMlJXbnBOVmozcVJyCg==
 ```
-## Bandit 12
+## Bandit 11 > 12
 
 To get back a rot13 encoded string, use the `tr` command. It lets one subtitute characters with another. So the solution will be:
 
@@ -387,4 +387,14 @@ After gaining access to level 17, capture the password and store it:
 
 ```bash
 cat /etc/bandit_pass/bandit17
+```
+
+## Bandit 17 > 18
+
+In this level the `diff` command is important.
+
+It helps identify the change that has been made in the new file in order to get the password.
+
+```bash
+diff passwords.old passwords.new
 ```
