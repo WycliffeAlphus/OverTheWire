@@ -398,3 +398,15 @@ It helps identify the change that has been made in the new file in order to get 
 ```bash
 diff passwords.old passwords.new
 ```
+
+## Bandit 18 > 19
+
+To solve this level we add a command after the common ssh expression, first ls to check that the file with the password exists, then we used cat to check it.
+
+```bash
+ssh -p 2220 bandit18@bandit.labs.overthewire.org ls
+```
+
+```bash
+ssh -p 2220 bandit18@bandit.labs.overthewire.org cat readme
+```
