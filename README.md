@@ -410,3 +410,33 @@ ssh -p 2220 bandit18@bandit.labs.overthewire.org ls
 ```bash
 ssh -p 2220 bandit18@bandit.labs.overthewire.org cat readme
 ```
+## Bandit 19 > 20
+
+Since the `suid` has been given to run the binary as the root or owner one can get the details of the password
+
+`ls -la` gives this:
+
+```bash
+total 36
+drwxr-xr-x  2 root     root      4096 Sep 19 07:08 .
+drwxr-xr-x 70 root     root      4096 Sep 19 07:09 ..
+-rwsr-x---  1 bandit20 bandit19 14880 Sep 19 07:08 bandit20-do
+-rw-r--r--  1 root     root       220 Mar 31  2024 .bash_logout
+-rw-r--r--  1 root     root      3771 Mar 31  2024 .bashrc
+-rw-r--r--  1 root     root       807 Mar 31  2024 .profile
+```
+
+It shows that the file is owned by bandit20 and belongs to bandit19 group, which has execution permissions on the file:
+
+`setuid` is set for the file meaning the group can run it as root; also since it is small `s`, it means the execution permission is also set for the owner.
+
+```bash
+./bandit20-do ls /etc/bandit_pass
+```
+shows the password files for different levels, then print the 
+
+password using:
+
+```bash
+./bandit20-do cat /etc/bandit_pass/bandit20
+```
