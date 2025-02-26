@@ -440,3 +440,31 @@ password using:
 ```bash
 ./bandit20-do cat /etc/bandit_pass/bandit20
 ```
+
+## Bandit 20 > 21
+
+This level involves connecting to the network daemon via the nc command.
+
+It is importatn to start a connection in server mode to listen for inbound connections.
+
+```bash
+ echo -n 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO | nc -l -p 8081 &
+ ```
+
+ The `-n` flag ensures that no  newline is sent with the input
+
+ The `nc -l -p 8081`  creates a connection in server mode - which listens for inbound connection.
+
+ The `&` moves the process to the background
+
+ Running the setuid binary with the same port will establish a connection to the netcat server which will send the password to it through `echo`. 
+
+ The binary then answers with the next level's password.
+
+```bash
+ ./suconnect 8081
+Read: 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO
+Password matches, sending next password
+EeoULMCra2q0dSkYj561DX7s1CpBuOBt
+[1]+  Done                    echo -n 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO | nc -l -p 8081
+```
