@@ -468,3 +468,53 @@ Password matches, sending next password
 EeoULMCra2q0dSkYj561DX7s1CpBuOBt
 [1]+  Done                    echo -n 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO | nc -l -p 8081
 ```
+## Bandit 21 > 22
+
+The level uses cron jobs. 
+We first find the jobs running in the directory
+
+```bash
+ls -la etc/cron.d/
+total 44
+drwxr-xr-x   2 root root  4096 Sep 19 07:10 .
+drwxr-xr-x 121 root root 12288 Sep 20 18:37 ..
+-rw-r--r--   1 root root   120 Sep 19 07:08 cronjob_bandit22
+-rw-r--r--   1 root root   122 Sep 19 07:08 cronjob_bandit23
+-rw-r--r--   1 root root   120 Sep 19 07:08 cronjob_bandit24
+-rw-r--r--   1 root root   201 Apr  8  2024 e2scrub_all
+-rwx------   1 root root    52 Sep 19 07:10 otw-tmp-dir
+-rw-r--r--   1 root root   102 Mar 31  2024 .placeholder
+-rw-r--r--   1 root root   396 Jan  9  2024 sysstat
+```
+
+There is a cronjob that runs as bandit22 user, we can print its content to learn more:
+
+```bash
+cat etc/cron.d/cronjob_bandit22
+@reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+```
+we are able to see the script file, which we can cat into:
+
+```bash
+ cat /usr/bin/cronjob_bandit22.sh
+#!/bin/bash
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+
+```
+The output tells us that a file with everyone having read permissions is created:`/tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv`
+
+the password for the level is then printed and the output redirected to the created file:
+
+```bash
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+```
+we can then print out its contents:
+
+```bash
+cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q
+```
+
